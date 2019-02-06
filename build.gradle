@@ -30,6 +30,10 @@ configurations() {
   interlokWar{}
 }
 
+configurations.all {
+  resolutionStrategy.cacheChangingModulesFor 0, "seconds"
+}
+
 dependencies {
   interlokRuntime  group: "com.adaptris", name: "interlok-boot",           version: interlokCoreVersion, changing: true
   interlokJavaDocs group: "com.adaptris", name: "interlok-boot",           version: interlokCoreVersion, changing: true, classifier: "javadoc", transitive: false
