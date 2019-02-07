@@ -1,0 +1,108 @@
+<project basedir="." default="deploy" name="interlok-install-builder" xmlns:runtime="uri:runtime" xmlns:ivy="antlib:org.apache.ivy.ant">
+  <description>
+This project is for generating an environment ready to run Interlok.
+
+Pre-requisites: ant-1.9+
+  </description>
+
+  <property file="build.properties"/>
+  <tstamp>
+    <format property="today" pattern="yyyy-MM-dd" locale="en"/>
+  </tstamp>
+
+  <target name="init">
+    <property environment="env"/>
+
+    <property name="src.interlok.dir" value="${basedir}/src/main/interlok"/>
+    <property name="build.dir" value="${basedir}/build"/>
+    <property name="ivy.download.baseurl" value="https://nexus.adaptris.net/nexus/content/groups/public/org/apache/ivy/ivy"/>
+    <property name="ivy.dir" value="${basedir}/ivy"/>
+    <property name="ivy.jar.file" value="${build.dir}/ivy.jar"/>
+    <property name="ivy.install.version" value="2.3.0"/>
+    <property name="ivy.download.url" value="${ivy.download.baseurl}/${ivy.install.version}/ivy-${ivy.install.version}.jar"/>
+    <property name="ivy.interlok.xml" value="${ivy.dir}/ivy-interlok.xml"/>
+    <property name="ivy.ui.xml" value="${ivy.dir}/ivy-ui.xml"/>
+    <property name="ivy.settings.xml" value="${ivy.dir}/ivy-settings.xml"/>
+    <property name="ivy.logging" value="default"/>
+
+    <!-- override via build.properties -->
+    <property name="interlokInstallDirectory" value="${build.dir}/install/${ant.project.name}"/>
+    <property name="interlokCoreVersion" value="3.8-SNAPSHOT"/>
+    <property name="interlokWarVersion" value="${interlokCoreVersion}"/>
+
+    <property name="target.lib.dir" value="${interlokInstallDirectory}/lib"/>
+    <property name="target.javadoc.dir" value="${interlokInstallDirectory}/docs/javadocs"/>
+    <property name="target.webapps.dir" value="${interlokInstallDirectory}/webapps"/>
+    <property name="target.tmp.dir" value="${interlokInstallDirectory}/tmp"/>
+  </target>
+
+
+  <target name="init.dirs" depends="init">
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${target.lib.dir}"/>
+    <mkdir dir="${target.javadoc.dir}"/>
+    <mkdir dir="${target.webapps.dir}"/>
+    <mkdir dir="${target.tmp.dir}"/>
+  </target>
+
+
+  <target name="download-ivy" depends="init.dirs" unless="${skip.ivy.download}">
+    <echo message="Downloading ivy..."/>
+    <get src="${ivy.download.url}" dest="${ivy.jar.file}" usetimestamp="true"/>
+  </target>
+
+  <target name="prepare-ivy" depends="download-ivy">
+    <path id="ivy.lib.path">
+      <pathelement location="${ivy.jar.file}"/>
+    </path>
+    <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+    <ivy:settings file="${ivy.settings.xml}" />
+    <ivy:resolve file="${ivy.interlok.xml}" refresh="true" conf="*" showprogress="false"/>
+  </target>
+
+  <!-- Only required if you want to use the ant-contrib extensions -->
+  <target name="taskdef.init" depends="init, prepare-ivy">
+    <ivy:cachepath pathid="antcontrib.classpath" conf="ant"/>
+    <typedef resource="net/sf/antcontrib/antlib.xml" classpathref="antcontrib.classpath" uri="uri:runtime"/>
+    <property name="anttools.classpath" refid="antcontrib.classpath"/>
+  </target>
+
+  <target name="download-dependencies" depends="prepare-ivy,init.dirs">
+    <ivy:retrieve pattern="${target.lib.dir}/[artifact].[ext]" conf="compile,runtime" type="jar,zip,bundle,hk2-jar,maven-plugin" log="${ivy.logging}"/>
+  </target>
+
+  <target name="download-javadocs" depends="prepare-ivy,init.dirs">
+    <ivy:retrieve pattern="${target.javadoc.dir}/[artifact].[ext]" organisation="com.adaptris" conf="javadoc" type="javadoc" log="${ivy.logging}"/>
+    <delete>
+      <fileset dir="${target.javadoc.dir}">
+        <include name="**/*.zip"/>
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="download-ui" depends="prepare-ivy,init.dirs">
+    <ivy:resolve file="${ivy.ui.xml}" conf="runtime" showprogress="false"/>
+    <ivy:retrieve pattern="${target.webapps.dir}/[artifact].[ext]" conf="runtime" type="war"/>
+  </target>
+
+  <target name="cleanInstall" depends="init" description="Delete the installation directory">
+    <delete dir="${interlokInstallDirectory}"/>
+  </target>
+
+  <target name="clean" depends="init" description="Clean up build artifacts">
+    <delete dir="${build.dir}"/>
+  </target>
+
+  <target name="deploy-config" depends="init">
+    <copy todir="${interlokInstallDirectory}" overwrite="true" verbose="true">
+      <fileset dir="${src.interlok.dir}"/>
+    </copy>
+  </target>
+
+  <target name="download" depends="prepare-ivy,init.dirs,download-dependencies,download-javadocs,download-ui,deploy-config"/>
+
+  <target name="deploy" depends="download" description="Download and Deploy"/>
+
+  <target name="install" depends="download" description="Download and Deploy"/>
+
+</project>

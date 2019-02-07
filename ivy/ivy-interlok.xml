@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0">
+  <info organisation="com.adaptris" module="interlok-builder" revision="${interlokCoreVersion}"/>
+  <configurations>
+	  <conf name="default" visibility="public" description="runtime dependencies and master artifact can be used with this conf" extends="runtime,master"/>
+	  <conf name="master" visibility="public" description="contains only the artifact published by this module itself, with no transitive dependencies" transitive="false"/>
+	  <conf name="compile" visibility="public" description="this is the default scope, used if none is specified. Compile dependencies are available in all classpaths."/>
+	  <conf name="provided" visibility="public" description="this is much like compile, but indicates you expect the JDK or a container to provide it. It is only available on the compilation classpath, and is not transitive." transitive="false"/>
+	  <conf name="runtime" visibility="public" description="this scope indicates that the dependency is not required for compilation, but is for execution. It is in the runtime and test classpaths, but not the compile classpath." extends="compile"/>
+	  <conf name="test" visibility="private" description="this scope indicates that the dependency is not required for normal use of the application, and is only available for the test compilation and execution phases." extends="runtime"/>
+	  <conf name="system" visibility="public" description="this scope is similar to provided except that you have to provide the JAR which contains it explicitly. The artifact is always available and is not looked up in a repository."/>
+	  <conf name="sources" visibility="public" description="this configuration contains the source artifact of this module, if any."/>
+	  <conf name="javadoc" visibility="public" description="this configuration contains the javadoc artifact of this module, if any."/>
+  	<conf name="optional" visibility="public" description="contains all optional dependencies"/>
+  	<conf name="ant" visibility="private" description="Tools used by the ANT Build" transitive="false"/>
+  </configurations>
+  <publications>
+  </publications>
+  <dependencies>
+    <dependency org="com.adaptris" name="interlok-boot" rev="${interlokCoreVersion}" changing="true" />
+    <dependency org="com.adaptris" name="interlok-logging" rev="${interlokCoreVersion}" changing="true" />
+    <dependency org="com.adaptris" name="interlok-core" rev="${interlokCoreVersion}" changing="true" />
+    <dependency org="com.adaptris" name="interlok-json" rev="${interlokCoreVersion}" changing="true" />
+    <dependency org="com.adaptris" name="interlok-csv" rev="${interlokCoreVersion}" changing="true" />
+    <dependency org="com.adaptris" name="interlok-varsub" rev="${interlokCoreVersion}" changing="true" />
+    <dependency org="com.adaptris" name="interlok-xinclude" rev="${interlokCoreVersion}" changing="true" />
+
+    <!-- Standard log4j2 dependencies that should be bundled in runtime-libaries.zip -->
+    <dependency org="org.slf4j" name="slf4j-api" rev="1.7.25" conf="runtime->default" />
+    <dependency org="org.slf4j" name="jcl-over-slf4j" rev="1.7.25" conf="runtime->default" />
+    <dependency org="org.slf4j" name="jul-to-slf4j" rev="1.7.25" conf="runtime->default" />
+    <dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.9.1" conf="runtime->default" />
+    <dependency org="org.apache.logging.log4j" name="log4j-1.2-api" rev="2.9.1"  conf="runtime->default" />
+    <dependency org="org.apache.logging.log4j" name="log4j-slf4j-impl" rev="2.9.1"  conf="runtime->default" />
+    <dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.9.1"  conf="runtime->default"/>
+
+    <dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" transitive="false" conf="ant->default"/>
+
+    <!-- Exclude other logging dependencies;  -->
+    <exclude org="ch.qos.logback" artifact="logback-core"/>
+    <exclude org="ch.qos.logback" artifact="logback-classic"/>
+    <exclude org="org.slf4j" artifact="slf4j-log4j12"/>
+    <exclude org="log4j" artifact="log4j"/>
+
+    <!-- Already provided in runtime-libraries.zip -->
+    <exclude org="javax.management" artifact="jmxremote"/>
+    <exclude org="javax.management" artifact="jmxremote_optional"/>
+    <exclude org="cglib" artifact="cglib-nodeps"/>
+
+    <exclude org="ant"/>
+    <exclude org="asm"/>
+    <exclude org="c3p0"/>
+    <exclude org="commons-logging"/>
+    <exclude org="io.netty" artifact="netty-common"/>
+    <exclude org="javax.mail" artifact="mail"/>
+    <exclude org="junit"/>
+    <exclude org="net.sf.saxon" artifact="saxon"/>
+    <exclude org="org.codehaus.woodstox"/>
+    <exclude org="org.fasterxml.woodstox"/>
+    <exclude org="org.eclipse.jetty.orbit" artifact="javax.mail.glassfish"/>
+    <exclude org="org.apache.ant" artifact="ant"/>
+    <exclude org="org.apache.ant" artifact="ant-launcher"/>
+    <exclude org="org.glassfish.hk2.external"/>
+    <exclude org="org.mockito"/>
+    <exclude org="org.slf4j" artifact="slf4j-log4j12"/>
+    <exclude org="org.tigris.subversion" artifact="org.tigris.subversion.clientadapter.javahl-win32"/>
+    <exclude org="xalan" artifact="xalan"/>
+    <exclude org="javax.media" artifact="jai_core"/>
+
+  </dependencies>
+</ivy-module>
