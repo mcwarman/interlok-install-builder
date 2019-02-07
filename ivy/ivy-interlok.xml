@@ -42,11 +42,6 @@
     <exclude org="org.slf4j" artifact="slf4j-log4j12"/>
     <exclude org="log4j" artifact="log4j"/>
 
-    <!-- Already provided in runtime-libraries.zip -->
-    <exclude org="javax.management" artifact="jmxremote"/>
-    <exclude org="javax.management" artifact="jmxremote_optional"/>
-    <exclude org="cglib" artifact="cglib-nodeps"/>
-
     <exclude org="ant"/>
     <exclude org="asm"/>
     <exclude org="c3p0"/>
