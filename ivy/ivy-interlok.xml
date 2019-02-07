@@ -61,6 +61,7 @@
     <exclude org="org.tigris.subversion" artifact="org.tigris.subversion.clientadapter.javahl-win32"/>
     <exclude org="xalan" artifact="xalan"/>
     <exclude org="javax.media" artifact="jai_core"/>
+    <exclude org="com.vaadin.external.google" artifact="android-json"/>
 
   </dependencies>
 </ivy-module>
