@@ -13,4 +13,5 @@ Project assists in creating local installation of Interlok with optional depende
 ./mvnw package
 ```
 
-And after that you will have a interlok installation in target/install/interlok-install-builder
+And after that you will have a interlok installation in target/install/interlok-install-builder. If you want to override the installation directory then `./mvnw -DinterlokInstallDirectory=/path/to/my/location package`
+
