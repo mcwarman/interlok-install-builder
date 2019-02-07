@@ -1,20 +1,20 @@
 # interlok-install-builder
 The suggested name was `urban-eureka`
 
-Project assits in creating local installation of Interlok with optional dependencies.
+Project assists in creating local installation of Interlok with optional dependencies. You are expected to have ant installed.
 
 ## Usage
 
 1. Update depedencies in `ivy\ivy-interlok.xml`
 
-2. Create `build.properties` containing `interlokInstallDirectory` (default: `./build/install/interlok-install-builder`)
+2. Create `build.properties` containing `interlokInstallDirectory=/path/to/my/install/directory` (default: `./build/install/interlok-install-builder`)
 
 ```
 interlokInstallDirectory=C:/Adaptris/Interlok
 ```
 
-3. Execute gradle build:
+3. Execute ant install
 
 ```
-.\gradlew.bat cleanInstall install
+ant install
 ```
