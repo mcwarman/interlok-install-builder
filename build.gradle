@@ -24,9 +24,9 @@ distZip.enabled=false
 repositories {
   mavenCentral()
   maven { url "$defaultNexusRepo" }
-  maven { url "$nexusBaseUrl/nexus/content/groups/public" }
-  maven { url "$nexusBaseUrl/nexus/content/repositories/snapshots" }
-  maven { url "$nexusBaseUrl/nexus/content/repositories/releases" }
+  maven { url "https://nexus.adaptris.net/nexus/content/groups/public" }
+  maven { url "https://nexus.adaptris.net/nexus/content/repositories/snapshots" }
+  maven { url "https://nexus.adaptris.net/nexus/content/repositories/releases" }
 }
 
 configurations() {
