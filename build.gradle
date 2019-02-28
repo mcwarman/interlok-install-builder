@@ -1,16 +1,20 @@
 apply plugin:  "distribution"
 
 ext {
-  interlokCoreVersion = project.hasProperty('interlokCoreVersion') ? project.getProperty('interlokCoreVersion') : '3.8-SNAPSHOT'
-  interlokWarVersion = project.hasProperty('interlokWarVersion') ? project.getProperty('interlokWarVersion') : interlokCoreVersion
   defaultNexusRepo = project.hasProperty('defaultNexusRepo') ? project.getProperty('defaultNexusRepo') : 'https://repo1.maven.org/maven2/'
   nexusBaseUrl  = project.hasProperty('nexusBaseUrl') ? project.getProperty('nexusBaseUrl') : 'https://nexus.adaptris.net'
   interlokInstallDirectory = project.hasProperty('interlokInstallDirectory') ? project.getProperty('interlokInstallDirectory') :  "${buildDir}/install/${project.name}"
 
-  lineSeparator = System.getProperty("line.separator")
+  // Dependabot doesn't currently "like" declarations like this for versioning.
+  // interlokCoreVersion = project.hasProperty('interlokCoreVersion') ? project.getProperty('interlokCoreVersion') : '3.8-SNAPSHOT'
+  // interlokWarVersion = project.hasProperty('interlokWarVersion') ? project.getProperty('interlokWarVersion') : interlokCoreVersion
 
+  interlokCoreVersion='3.8.2-RELEASE'
+  interlokWarVersion='3.8.2-RELEASE'
   log4j2Version='2.9.1'
   slf4jVersion='1.7.25'
+
+  lineSeparator = System.getProperty("line.separator")
 
 }
 
@@ -18,6 +22,7 @@ distTar.enabled=false
 distZip.enabled=false
 
 repositories {
+  mavenCentral()
   maven { url "$defaultNexusRepo" }
   maven { url "$nexusBaseUrl/nexus/content/groups/public" }
   maven { url "$nexusBaseUrl/nexus/content/repositories/snapshots" }
