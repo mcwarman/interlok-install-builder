@@ -10,7 +10,7 @@ ext {
   // interlokWarVersion = project.hasProperty('interlokWarVersion') ? project.getProperty('interlokWarVersion') : interlokCoreVersion
 
   interlokCoreVersion='3.8.2-RELEASE'
-  interlokWarVersion='3.8.2-RELEASE'
+  interlokWarVersion='3.8.2.2-RELEASE'
   log4j2Version='2.9.1'
   slf4jVersion='1.7.25'
 
@@ -40,33 +40,33 @@ configurations.all {
 }
 
 dependencies {
-  interlokRuntime  group: "com.adaptris", name: "interlok-boot",           version: interlokCoreVersion, changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-boot",           version: interlokCoreVersion, changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-core",           version: interlokCoreVersion, changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-core",           version: interlokCoreVersion, changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-common",         version: interlokCoreVersion, changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-common",         version: interlokCoreVersion, changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-logging",        version: interlokCoreVersion, changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-logging",        version: interlokCoreVersion, changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-varsub",         version: interlokCoreVersion, changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-varsub",         version: interlokCoreVersion, changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-json",           version: interlokCoreVersion, changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-json",           version: interlokCoreVersion, changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-apache-http",    version: interlokCoreVersion, changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-apache-http",    version: interlokCoreVersion, changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-service-tester", version: interlokCoreVersion, changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-service-tester", version: interlokCoreVersion, changing: true, classifier: "javadoc", transitive: false
+  interlokRuntime  group: "com.adaptris", name: "interlok-boot",           version: "$interlokCoreVersion", changing: true
+  interlokJavaDocs group: "com.adaptris", name: "interlok-boot",           version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
+  interlokRuntime  group: "com.adaptris", name: "interlok-core",           version: "$interlokCoreVersion", changing: true
+  interlokJavaDocs group: "com.adaptris", name: "interlok-core",           version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
+  interlokRuntime  group: "com.adaptris", name: "interlok-common",         version: "$interlokCoreVersion", changing: true
+  interlokJavaDocs group: "com.adaptris", name: "interlok-common",         version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
+  interlokRuntime  group: "com.adaptris", name: "interlok-logging",        version: "$interlokCoreVersion", changing: true
+  interlokJavaDocs group: "com.adaptris", name: "interlok-logging",        version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
+  interlokRuntime  group: "com.adaptris", name: "interlok-varsub",         version: "$interlokCoreVersion", changing: true
+  interlokJavaDocs group: "com.adaptris", name: "interlok-varsub",         version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
+  interlokRuntime  group: "com.adaptris", name: "interlok-json",           version: "$interlokCoreVersion", changing: true
+  interlokJavaDocs group: "com.adaptris", name: "interlok-json",           version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
+  interlokRuntime  group: "com.adaptris", name: "interlok-apache-http",    version: "$interlokCoreVersion", changing: true
+  interlokJavaDocs group: "com.adaptris", name: "interlok-apache-http",    version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
+  interlokRuntime  group: "com.adaptris", name: "interlok-service-tester", version: "$interlokCoreVersion", changing: true
+  interlokJavaDocs group: "com.adaptris", name: "interlok-service-tester", version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
 
-  interlokRuntime group: "org.slf4j", name: "slf4j-api",      version: slf4jVersion
-  interlokRuntime group: "org.slf4j", name: "jcl-over-slf4j", version: slf4jVersion
-  interlokRuntime group: "org.slf4j", name: "jul-to-slf4j",   version: slf4jVersion
+  interlokRuntime group: "org.slf4j", name: "slf4j-api",      version: "$slf4jVersion"
+  interlokRuntime group: "org.slf4j", name: "jcl-over-slf4j", version: "$slf4jVersion"
+  interlokRuntime group: "org.slf4j", name: "jul-to-slf4j",   version: "$slf4jVersion"
 
-  interlokRuntime group: "org.apache.logging.log4j", name: "log4j-core",       version: log4j2Version
-  interlokRuntime group: "org.apache.logging.log4j", name: "log4j-1.2-api",    version: log4j2Version
-  interlokRuntime group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: log4j2Version
-  interlokRuntime group: "org.apache.logging.log4j", name: "log4j-api",        version: log4j2Version
+  interlokRuntime group: "org.apache.logging.log4j", name: "log4j-core",       version: "$log4j2Version"
+  interlokRuntime group: "org.apache.logging.log4j", name: "log4j-1.2-api",    version: "$log4j2Version"
+  interlokRuntime group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "$log4j2Version"
+  interlokRuntime group: "org.apache.logging.log4j", name: "log4j-api",        version: "$log4j2Version"
 
-  interlokWar group: "com.adaptris.ui", name: "interlok", version: interlokWarVersion, ext: "war", changing: true
+  interlokWar group: "com.adaptris.ui", name: "interlok", version: "$interlokWarVersion", ext: "war", changing: true
 }
 
 distributions {
