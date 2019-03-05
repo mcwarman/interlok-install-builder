@@ -12,7 +12,7 @@
     <interlokCoreVersion>3.8-SNAPSHOT</interlokCoreVersion>
     <interlokWarVersion>3.8-SNAPSHOT</interlokWarVersion>
     <slf4j-version>1.7.26</slf4j-version>
-    <log4j2-version>2.9.1</log4j2-version>
+    <log4j2-version>2.11.2</log4j2-version>
     <jetty-version>9.4.14.v20181114</jetty-version>
     <skip.purge>true</skip.purge>
     <interlokInstallDirectory>${project.build.directory}/install/${project.artifactId}</interlokInstallDirectory>
