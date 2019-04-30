@@ -9,7 +9,7 @@
   <name>Interlok Install Builder</name>
 
   <properties>
-    <interlokCoreVersion>3.8.3-RELEASE</interlokCoreVersion>
+    <interlokCoreVersion>3.8.4-RELEASE</interlokCoreVersion>
     <interlokWarVersion>3.8.3-RELEASE</interlokWarVersion>
     <slf4j-version>1.7.26</slf4j-version>
     <log4j2-version>2.11.2</log4j2-version>
