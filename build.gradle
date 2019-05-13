@@ -9,7 +9,7 @@ ext {
   // interlokCoreVersion = project.hasProperty('interlokCoreVersion') ? project.getProperty('interlokCoreVersion') : '3.8-SNAPSHOT'
   // interlokWarVersion = project.hasProperty('interlokWarVersion') ? project.getProperty('interlokWarVersion') : interlokCoreVersion
 
-  interlokCoreVersion='3.8.3-RELEASE'
+  interlokCoreVersion='3.8.4-RELEASE'
   interlokWarVersion='3.8.4-RELEASE'
   log4j2Version='2.11.2'
   slf4jVersion='1.7.26'
