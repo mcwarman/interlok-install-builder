@@ -11,7 +11,7 @@ ext {
 
   interlokCoreVersion='3.9.0-RELEASE'
   interlokWarVersion='3.9.0-RELEASE'
-  log4j2Version='2.11.2'
+  log4j2Version='2.12.0'
   slf4jVersion='1.7.26'
 
   lineSeparator = System.getProperty("line.separator")
