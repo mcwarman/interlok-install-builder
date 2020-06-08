@@ -1,7 +1,6 @@
 apply plugin:  "distribution"
 
 ext {
-  defaultNexusRepo = project.hasProperty('defaultNexusRepo') ? project.getProperty('defaultNexusRepo') : 'https://repo1.maven.org/maven2/'
   nexusBaseUrl  = project.hasProperty('nexusBaseUrl') ? project.getProperty('nexusBaseUrl') : 'https://nexus.adaptris.net'
   interlokInstallDirectory = project.hasProperty('interlokInstallDirectory') ? project.getProperty('interlokInstallDirectory') :  "${buildDir}/install/${project.name}"
 
@@ -22,8 +21,11 @@ distTar.enabled=false
 distZip.enabled=false
 
 repositories {
-  mavenCentral()
-  maven { url "$defaultNexusRepo" }
+  mavenCentral {
+    content {
+      excludeGroupByRegex "com\\.adaptris.*"
+    }
+  }
   maven { url "https://nexus.adaptris.net/nexus/content/groups/public" }
   maven { url "https://nexus.adaptris.net/nexus/content/groups/interlok" }
 }
