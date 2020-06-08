@@ -21,7 +21,7 @@ distTar.enabled=false
 distZip.enabled=false
 
 repositories {
-  mavenCentral {
+  mavenCentral() {
     content {
       excludeGroupByRegex "com\\.adaptris.*"
     }
