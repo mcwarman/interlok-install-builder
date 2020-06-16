@@ -1,98 +1,31 @@
-apply plugin:  "distribution"
-
 ext {
-  nexusBaseUrl  = project.hasProperty('nexusBaseUrl') ? project.getProperty('nexusBaseUrl') : 'https://nexus.adaptris.net'
-  interlokInstallDirectory = project.hasProperty('interlokInstallDirectory') ? project.getProperty('interlokInstallDirectory') :  "${buildDir}/install/${project.name}"
-
-  // Dependabot doesn't currently "like" declarations like this for versioning.
-  // interlokCoreVersion = project.hasProperty('interlokCoreVersion') ? project.getProperty('interlokCoreVersion') : '3.8-SNAPSHOT'
-  // interlokWarVersion = project.hasProperty('interlokWarVersion') ? project.getProperty('interlokWarVersion') : interlokCoreVersion
-
-  interlokCoreVersion='3.10.1-RELEASE'
-  interlokWarVersion='3.10.1-RELEASE'
-  log4j2Version='2.13.3'
-  slf4jVersion='1.7.30'
-
-  lineSeparator = System.getProperty("line.separator")
-
+  interlokParentGradle = project.findProperty('interlokParentGradle') ?: 'https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/master/build.gradle'
+  interlokVersion = project.findProperty('interlokVersion') ?: '3.10.1-RELEASE'
+  interlokMavenLocal = project.findProperty('interlokMavenLocal') ?: false
+  interlokInstallDirectory = project.findProperty('interlokInstallDirectory') ?: "${buildDir}/distribution"
 }
-
-distTar.enabled=false
-distZip.enabled=false
 
 repositories {
-  mavenCentral() {
-    content {
-      excludeGroupByRegex "com\\.adaptris.*"
-    }
+  if (interlokMavenLocal) {
+    mavenLocal()
   }
-  maven { url "https://nexus.adaptris.net/nexus/content/groups/public" }
-  maven { url "https://nexus.adaptris.net/nexus/content/groups/interlok" }
 }
 
-configurations() {
-  interlokRuntime{}
-  interlokJavaDocs{}
-  interlokWar{}
-}
-
-configurations.all {
-  resolutionStrategy.cacheChangingModulesFor 0, "seconds"
+allprojects {
+  apply from: "${interlokParentGradle}"
 }
 
 dependencies {
-  interlokRuntime  group: "com.adaptris", name: "interlok-boot",           version: "$interlokCoreVersion", changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-boot",           version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-core",           version: "$interlokCoreVersion", changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-core",           version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-common",         version: "$interlokCoreVersion", changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-common",         version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-logging",        version: "$interlokCoreVersion", changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-logging",        version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-varsub",         version: "$interlokCoreVersion", changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-varsub",         version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-json",           version: "$interlokCoreVersion", changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-json",           version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-apache-http",    version: "$interlokCoreVersion", changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-apache-http",    version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-service-tester", version: "$interlokCoreVersion", changing: true
-  interlokJavaDocs group: "com.adaptris", name: "interlok-service-tester", version: "$interlokCoreVersion", changing: true, classifier: "javadoc", transitive: false
-
-  interlokRuntime group: "org.slf4j", name: "slf4j-api",      version: "$slf4jVersion"
-  interlokRuntime group: "org.slf4j", name: "jcl-over-slf4j", version: "$slf4jVersion"
-  interlokRuntime group: "org.slf4j", name: "jul-to-slf4j",   version: "$slf4jVersion"
-
-  interlokRuntime group: "org.apache.logging.log4j", name: "log4j-core",       version: "$log4j2Version"
-  interlokRuntime group: "org.apache.logging.log4j", name: "log4j-1.2-api",    version: "$log4j2Version"
-  interlokRuntime group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "$log4j2Version"
-  interlokRuntime group: "org.apache.logging.log4j", name: "log4j-api",        version: "$log4j2Version"
-
-  interlokWar group: "com.adaptris.ui", name: "interlok", version: "$interlokWarVersion", ext: "war", changing: true
-}
-
-distributions {
-  main {
-    contents {
-      from {
-        "src/main/interlok"
-      }
-      into('lib') {
-        from(project.configurations.interlokRuntime)
-      }
-      into('webapps') {
-        from(project.configurations.interlokWar)
-      }
-      into('docs/javadocs') {
-        from(project.configurations.interlokJavaDocs)
-      }
-      rename '(.*)-[0-9]+\\..*.jar', '$1.jar'
-      rename '(.*)-[0-9]+\\..*.war', '$1.war'
-    }
-  }
+  interlokRuntime  group: "com.adaptris", name: "interlok-json",           version: interlokVersion, changing: true
+  interlokJavadocs group: "com.adaptris", name: "interlok-json",           version: interlokVersion, changing: true, classifier: "javadoc", transitive: false
+  interlokRuntime  group: "com.adaptris", name: "interlok-apache-http",    version: interlokVersion, changing: true
+  interlokJavadocs group: "com.adaptris", name: "interlok-apache-http",    version: interlokVersion, changing: true, classifier: "javadoc", transitive: false
+  interlokRuntime  group: "com.adaptris", name: "interlok-service-tester", version: interlokVersion, changing: true
+  interlokJavadocs group: "com.adaptris", name: "interlok-service-tester", version: interlokVersion, changing: true, classifier: "javadoc", transitive: false
 }
 
 installDist {
-    destinationDir = new File(interlokInstallDirectory)
+  destinationDir = new File(interlokInstallDirectory)
 }
 
 task cleanInstall () {
