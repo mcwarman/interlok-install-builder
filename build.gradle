@@ -3,6 +3,7 @@ ext {
   interlokVersion = project.findProperty('interlokVersion') ?: '3.10.1-RELEASE'
   interlokMavenLocal = project.findProperty('interlokMavenLocal') ?: false
   interlokInstallDirectory = project.findProperty('interlokInstallDirectory') ?: "${buildDir}/distribution"
+  buildEnv = project.findProperty('buildEnv') ?: "dev"
 }
 
 repositories {
