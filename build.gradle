@@ -10,6 +10,9 @@ repositories {
   if (interlokMavenLocal) {
     mavenLocal()
   }
+  maven { url "http://nexus.agb.rbxd.ds/nexus/content/repositories/snapshots" }
+  maven { url "http://nexus.agb.rbxd.ds/nexus/content/groups/interlok" }
+  maven { url "https://nexus.proagrica-tooling.dev/repository/maven-group" }
 }
 
 allprojects {
@@ -17,12 +20,26 @@ allprojects {
 }
 
 dependencies {
-  interlokRuntime  group: "com.adaptris", name: "interlok-json",           version: interlokVersion, changing: true
-  interlokJavadocs group: "com.adaptris", name: "interlok-json",           version: interlokVersion, changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-apache-http",    version: interlokVersion, changing: true
-  interlokJavadocs group: "com.adaptris", name: "interlok-apache-http",    version: interlokVersion, changing: true, classifier: "javadoc", transitive: false
-  interlokRuntime  group: "com.adaptris", name: "interlok-service-tester", version: interlokVersion, changing: true
-  interlokJavadocs group: "com.adaptris", name: "interlok-service-tester", version: interlokVersion, changing: true, classifier: "javadoc", transitive: false
+  def interlokDeps = ["json", "apache-http", "service-tester", "aws-s3", "aws-sqs", "aws-kinesis", "config-conditional", "expressions", "flyway", "csv-json", "hpcc", "filesystem"] as String[]
+  interlokDeps.each {
+    add("interlokRuntime",  [group: "com.adaptris", name: "interlok-${it}", version: interlokVersion, changing: true])
+    add("interlokJavadocs", [group: "com.adaptris", name: "interlok-${it}", version: interlokVersion, changing: true, classifier: "javadoc", transitive: false])
+  }
+
+  interlokRuntime ("mysql:mysql-connector-java:8.0.20")
+
+  interlokRuntime ("com.proagrica.ta.interlok:ta-labs:1+"){
+    changing=true
+    exclude group: 'com.adaptris'
+  }
+  interlokRuntime ("com.proagrica.mdm.interlok:mdm-integration-labs:0.0.1+"){
+    changing=true
+    exclude group: 'com.adaptris'
+  }
+  interlokRuntime ("com.adaptris.labs:odin-labs:3.10-SNAPSHOT") {
+    changing=true
+    exclude group: 'com.adaptris'
+  }
 }
 
 installDist {
