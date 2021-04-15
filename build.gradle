@@ -1,6 +1,6 @@
 ext {
   interlokParentGradle = project.findProperty('interlokParentGradle') ?: 'https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/master/build.gradle'
-  interlokVersion = project.findProperty('interlokVersion') ?: '3.10.0-RELEASE'
+  interlokVersion = project.findProperty('interlokVersion') ?: '4.0-SNAPSHOT'
   interlokMavenLocal = project.findProperty('interlokMavenLocal') ?: false
   interlokInstallDirectory = project.findProperty('interlokInstallDirectory') ?: "${buildDir}/distribution"
   buildEnv = project.findProperty('buildEnv') ?: "dev"
@@ -10,9 +10,6 @@ repositories {
   if (interlokMavenLocal) {
     mavenLocal()
   }
-  maven { url "http://nexus.agb.rbxd.ds/nexus/content/repositories/snapshots" }
-  maven { url "http://nexus.agb.rbxd.ds/nexus/content/groups/interlok" }
-  maven { url "https://nexus.proagrica-tooling.dev/repository/maven-group" }
 }
 
 allprojects {
@@ -20,25 +17,10 @@ allprojects {
 }
 
 dependencies {
-  def interlokDeps = ["json", "apache-http", "service-tester", "aws-s3", "aws-sqs", "aws-kinesis", "config-conditional", "expressions", "flyway", "csv-json", "hpcc", "filesystem"] as String[]
+  def interlokDeps = ["json", "apache-http", "service-tester", "aws-s3", "aws-sqs", "aws-kinesis-sdk", "expressions", "flyway", "csv-json", "filesystem"] as String[]
   interlokDeps.each {
     add("interlokRuntime",  [group: "com.adaptris", name: "interlok-${it}", version: interlokVersion, changing: true])
     add("interlokJavadocs", [group: "com.adaptris", name: "interlok-${it}", version: interlokVersion, changing: true, classifier: "javadoc", transitive: false])
-  }
-
-  interlokRuntime ("mysql:mysql-connector-java:8.0.20")
-
-  interlokRuntime ("com.proagrica.ta.interlok:ta-labs:1+"){
-    changing=true
-    exclude group: 'com.adaptris'
-  }
-  interlokRuntime ("com.proagrica.mdm.interlok:mdm-integration-labs:0.0.1+"){
-    changing=true
-    exclude group: 'com.adaptris'
-  }
-  interlokRuntime ("com.adaptris.labs:odin-labs:3.10-SNAPSHOT") {
-    changing=true
-    exclude group: 'com.adaptris'
   }
 }
 
@@ -53,3 +35,5 @@ task cleanInstall () {
     new File(interlokInstallDirectory).deleteDir()
   }
 }
+
+installDist.dependsOn interlokVersionReport
